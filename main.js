@@ -18,10 +18,11 @@ ImageTracer.imageToSVG(
     "野獣先輩.png",
     function (strOriSvg) {
         // console.log(strOriSvg);
-        let strSvg = strOriSvg.replaceAll("55,45,50", "255,0,0");
-        strSvg = strSvg.replaceAll("115,79,71", "0,255,0");
-        strSvg = strSvg.replaceAll("166,114,102", "0,0,255");
-        strSvg = strSvg.replaceAll("254,253,253", "255,255,255");
+        let strSvg = strOriSvg.replaceAll("55,45,50", "255,0,0"); // 髪、服など
+        strSvg = strSvg.replaceAll("115,79,71", "0,255,0"); // 影
+        strSvg = strSvg.replaceAll("166,114,102", "0,0,255"); // 皮膚
+        strSvg = strSvg.replaceAll("254,253,253", "255,255,255"); // 背景
+
         console.log(strSvg);
         ImageTracer.appendSVGString(strSvg, "svg");
     },
