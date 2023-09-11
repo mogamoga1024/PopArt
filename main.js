@@ -22,10 +22,10 @@ ImageTracer.imageToSVG(
     "野獣先輩.png",
     function (strOriSvg) {
         // console.log(strOriSvg);
-        let strSvg = strOriSvg.replaceAll("rgb(55,45,50)", "rgb(255,0,0)") // 髪、服など
-                              .replaceAll("rgb(115,79,71)", "rgb(0,255,0)") // 影
-                              .replaceAll("rgb(166,114,102)", "rgb(0,0,255)") // 皮膚
-                              .replaceAll("rgb(254,253,253)", "rgb(255,255,255)"); // 背景
+        const strSvg = strOriSvg.replaceAll("rgb(55,45,50)", "rgb(255,0,0)") // 髪、服など
+                                .replaceAll("rgb(115,79,71)", "rgb(0,255,0)") // 影
+                                .replaceAll("rgb(166,114,102)", "rgb(0,0,255)") // 皮膚
+                                .replaceAll("rgb(254,253,253)", "rgb(255,255,255)"); // 背景
 
         console.log(strSvg);
         ImageTracer.appendSVGString(strSvg, "svg");
