@@ -6,10 +6,20 @@ function randomInt(min, max) {
 
 function createRandomColorStrSVG(strOriSvg, palette) {
     let strSvg = strOriSvg;
-    for (const color of palette) {
+    let firstHue = 0;
+    for (let i = 0; i < palette.length; i++) {
+        const color = palette[i];
         const src = `rgb(${color.r},${color.g},${color.b})`;
-        const hue = randomInt(0, 360 - 1);
-        const lightness = randomInt(30, 70);
+        let hue = randomInt(0, 360 - 1);
+        const lightness = 50 + randomInt(-20, 20);
+
+        if (i === 0) {
+            firstHue = hue;
+        }
+        else if (i === palette.length - 1) {
+            hue += 180 + randomInt(-20, 20);
+        }
+
         const dst = `hsl(${hue} 100% ${lightness}%)`;
         strSvg = strSvg.replaceAll(src, dst);
     }
