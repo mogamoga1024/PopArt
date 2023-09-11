@@ -14,12 +14,17 @@ function createRandomColorStrSVG(strOriSvg, palette) {
         let hue = randomInt(0, 360 - 1);
         // const saturation = 100 + randomInt(-10, 10) + randomInt(-10, 10) + randomInt(-10, 10);
         const saturation = 100;
-        let lightness = 50 + randomInt(-25, 25) + randomInt(-25, 25);
+        // let lightness = 50 + randomInt(-25, 25) + randomInt(-25, 25);
+        let lightness = 50;
+        for (let i = 0; i < 25; i++) {
+            lightness += randomInt(-1, 1);
+        }
 
         if (i === 0) {
             firstHue = hue;
         }
         else if (i === 1) {
+            hue = firstHue + randomInt(-135, 135);
             lightness = 40;
             secondHue = hue;
         }
