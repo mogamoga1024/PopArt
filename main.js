@@ -16,9 +16,14 @@ const options = {
 
 ImageTracer.imageToSVG(
     "野獣先輩.png",
-    function (svgstr) {
-        // console.log(svgstr);
-        ImageTracer.appendSVGString(svgstr, "svg");
+    function (strOriSvg) {
+        // console.log(strOriSvg);
+        let strSvg = strOriSvg.replaceAll("55,45,50", "255,0,0");
+        strSvg = strSvg.replaceAll("115,79,71", "0,255,0");
+        strSvg = strSvg.replaceAll("166,114,102", "0,0,255");
+        strSvg = strSvg.replaceAll("254,253,253", "255,255,255");
+        console.log(strSvg);
+        ImageTracer.appendSVGString(strSvg, "svg");
     },
     options
 );
