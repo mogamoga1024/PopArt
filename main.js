@@ -7,20 +7,31 @@ function randomInt(min, max) {
 function createRandomColorStrSVG(strOriSvg, palette) {
     let strSvg = strOriSvg;
     let firstHue = 0;
+    let secondHue = 0;
     for (let i = 0; i < palette.length; i++) {
         const color = palette[i];
         const src = `rgb(${color.r},${color.g},${color.b})`;
         let hue = randomInt(0, 360 - 1);
-        const lightness = 50 + randomInt(-25, 25) + randomInt(-25, 25);
+        // const saturation = 100 + randomInt(-10, 10) + randomInt(-10, 10) + randomInt(-10, 10);
+        const saturation = 100;
+        let lightness = 50 + randomInt(-25, 25) + randomInt(-25, 25);
 
         if (i === 0) {
             firstHue = hue;
         }
+        else if (i === 1) {
+            lightness = 40;
+            secondHue = hue;
+        }
+        else if (i === 2) {
+            hue = secondHue + 30;
+            lightness = 60;
+        }
         else if (i === palette.length - 1) {
-            hue += 180 + randomInt(-20, 20);
+            hue = firstHue + 180 + randomInt(-20, 20);
         }
 
-        const dst = `hsl(${hue} 100% ${lightness}%)`;
+        const dst = `hsl(${hue} ${saturation}% ${lightness}%)`;
         strSvg = strSvg.replaceAll(src, dst);
     }
     return strSvg;
