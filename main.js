@@ -1,14 +1,16 @@
 
-function randomInt(max) {
-    return Math.floor(Math.random() * max);
+// min以上max以下の整数を返す
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function createRandomColorStrSVG(strOriSvg, palette) {
     let strSvg = strOriSvg;
     for (const color of palette) {
         const src = `rgb(${color.r},${color.g},${color.b})`;
-        // const dst = `hsl(${randomInt(360)} ${randomInt(100)}% ${randomInt(100)}%)`;
-        const dst = `hsl(${randomInt(360)} 100% ${randomInt(25) + randomInt(25) + randomInt(25) + randomInt(25)}%)`;
+        const hue = randomInt(0, 360 - 1);
+        const lightness = randomInt(30, 70);
+        const dst = `hsl(${hue} 100% ${lightness}%)`;
         strSvg = strSvg.replaceAll(src, dst);
     }
     return strSvg;
@@ -36,16 +38,10 @@ ImageTracer.imageToTracedata(
         ImageTracer.imageToSVG(
             "野獣先輩.png",
             function (strOriSvg) {
-                // const strSvg = strOriSvg.replaceAll("rgb(55,45,50)", "rgb(255,0,0)") // 髪、服など
-                //                         .replaceAll("rgb(115,79,71)", "rgb(0,255,0)") // 影
-                //                         .replaceAll("rgb(166,114,102)", "rgb(0,0,255)") // 皮膚
-                //                         .replaceAll("rgb(254,253,253)", "rgb(255,255,255)"); // 背景
-        
                 const strSvg = strOriSvg.replaceAll("rgb(55,45,50)", "hsl(0 100% 50%)") // 髪、服など
                                         .replaceAll("rgb(115,79,71)", "hsl(30 100% 40%)") // 影
                                         .replaceAll("rgb(166,114,102)", "hsl(60 100% 50%)") // 皮膚
                                         .replaceAll("rgb(254,253,253)", "hsl(250 100% 50%)"); // 背景
-        
                 ImageTracer.appendSVGString(strSvg, "svg-container");
                 for (let i = 0; i < 100; i++) {
                     ImageTracer.appendSVGString(createRandomColorStrSVG(strOriSvg, tracedata.palette), "svg-container");
