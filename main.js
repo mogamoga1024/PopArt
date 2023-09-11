@@ -11,7 +11,7 @@ function createRandomColorStrSVG(strOriSvg, palette) {
         const color = palette[i];
         const src = `rgb(${color.r},${color.g},${color.b})`;
         let hue = randomInt(0, 360 - 1);
-        const lightness = 50 + randomInt(-20, 20);
+        const lightness = 50 + randomInt(-25, 25) + randomInt(-25, 25);
 
         if (i === 0) {
             firstHue = hue;
