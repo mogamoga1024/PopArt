@@ -8,7 +8,8 @@
   <script src="rgb2hsl.js"></script>
 </head>
 <style>
-  :root {
+  body {
+    margin: 0;
     text-align: center;
     background-color: aquamarine;
   }
@@ -18,9 +19,15 @@
   svg {
     vertical-align: top;
   }
+  #message, #add-svg-btn {
+    margin: 16px;
+    font-size: 32px;
+  }
 </style>
 <body>
   <div id="svg-container"></div>
+  <div id="message">処理中…</div>
+  <button id="add-svg-btn">もっと見る</button>
   
   <script src="main.js"></script>
 </body>

@@ -25,7 +25,7 @@ ImageTracer.imageToTracedata(
         ImageTracer.imageToSVG(
             "野獣先輩.png",
             function (strOriSvg) {
-                for (let i = 0; i < 100; i++) {
+                function createRandomSVG() {
                     let strSvg = strOriSvg;
                     for (const color of tracedata.palette) {
                         const src = `rgb(${color.r},${color.g},${color.b})`;
@@ -46,6 +46,32 @@ ImageTracer.imageToTracedata(
                     }
                     ImageTracer.appendSVGString(strSvg, "svg-container");
                 }
+                
+                const elMessage = document.querySelector("#message");
+                elMessage.style.display = "block";
+                setTimeout(() => {
+                    for (let i = 0; i < 100; i++) {
+                        createRandomSVG();
+                    }
+                    elMessage.style.display = "none";
+                }, 0);
+
+                const addButton = document.querySelector("#add-svg-btn");
+                let canClick = true;
+                addButton.addEventListener("click", () => {
+                    if (!canClick) {
+                        return;
+                    }
+                    canClick = false;
+                    elMessage.style.display = "block";
+                    setTimeout(() => {
+                        for (let i = 0; i < 100; i++) {
+                            createRandomSVG();
+                        }
+                        elMessage.style.display = "none";
+                        canClick = true;
+                    }, 0);
+                });
             },
             options
         );
