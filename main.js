@@ -24,7 +24,7 @@ ImageTracer.imageToTracedata(
     function (tracedata) {
         ImageTracer.imageToSVG(
             "野獣先輩.png",
-            function (strOriSvg) {
+            async function (strOriSvg) {
                 function createRandomSVG() {
                     let strSvg = strOriSvg;
                     for (const color of tracedata.palette) {
@@ -46,31 +46,37 @@ ImageTracer.imageToTracedata(
                     }
                     ImageTracer.appendSVGString(strSvg, "svg-container");
                 }
-                
-                const elMessage = document.querySelector("#message");
-                elMessage.style.display = "block";
-                setTimeout(() => {
-                    for (let i = 0; i < 100; i++) {
-                        createRandomSVG();
-                    }
-                    elMessage.style.display = "none";
-                }, 0);
 
                 const addButton = document.querySelector("#add-svg-btn");
+                const elMessage = document.querySelector("#message");
+
+                function appendManySVG() {
+                    return new Promise(resolve => {
+                        requestAnimationFrame(() => {
+                            addButton.style.display = "none";
+                            elMessage.style.display = "";
+                            requestAnimationFrame(() => {
+                                for (let i = 0; i < 100; i++) {
+                                    createRandomSVG();
+                                }
+                                addButton.style.display = "";
+                                elMessage.style.display = "none";
+                                resolve();
+                            });
+                        });
+                    })
+                }
+                
+                await appendManySVG();
+
                 let canClick = true;
-                addButton.addEventListener("click", () => {
+                addButton.addEventListener("click", async () => {
                     if (!canClick) {
                         return;
                     }
                     canClick = false;
-                    elMessage.style.display = "block";
-                    setTimeout(() => {
-                        for (let i = 0; i < 100; i++) {
-                            createRandomSVG();
-                        }
-                        elMessage.style.display = "none";
-                        canClick = true;
-                    }, 0);
+                    await appendManySVG();
+                    canClick = true;
                 });
             },
             options

@@ -19,7 +19,11 @@
   svg {
     vertical-align: top;
   }
-  #message, #add-svg-btn {
+  #message {
+    margin: 16px;
+    font-size: 32px;
+  }
+  #add-svg-btn {
     margin: 16px;
     font-size: 32px;
   }
@@ -27,7 +31,7 @@
 <body>
   <div id="svg-container"></div>
   <div id="message">処理中…</div>
-  <button id="add-svg-btn">もっと見る</button>
+  <button id="add-svg-btn" style="display: none;">もっと見る</button>
   
   <script src="main.js"></script>
 </body>
