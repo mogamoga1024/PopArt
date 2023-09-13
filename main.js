@@ -38,7 +38,7 @@ ImageTracer.imageToTracedata(
                     elMessage.innerText = "エラー発生…重いかも…";
                 };
 
-                worker.postMessage([strOriSvg, tracedata.palette]);
+                worker.postMessage({strOriSvg, palette: tracedata.palette});
 
                 addButton.onclick = function() {
                     if (!addButton.canClick) {
@@ -47,7 +47,7 @@ ImageTracer.imageToTracedata(
                     addButton.style.display = "none";
                     elMessage.style.display = "";
                     addButton.canClick = false;
-                    worker.postMessage([strOriSvg, tracedata.palette]);
+                    worker.postMessage({strOriSvg, palette: tracedata.palette});
                 }
             },
             options

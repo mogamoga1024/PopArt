@@ -2,7 +2,7 @@
 importScripts("rgb2hsl.js");
 
 onmessage = function(e) {
-    const [strOriSvg, palette] = e.data;
+    const {strOriSvg, palette} = e.data;
     let strSvg = "";
     for (let i = 0; i < 100; i++) {
         strSvg += createRandomStrSVG(strOriSvg, palette);
