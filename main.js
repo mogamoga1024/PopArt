@@ -1,9 +1,4 @@
 
-// min以上max以下の整数を返す
-function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const options = {
     // ltres: 1,
     // qtres: 1,
@@ -24,62 +19,38 @@ ImageTracer.imageToTracedata(
     function (tracedata) {
         ImageTracer.imageToSVG(
             "野獣先輩.png",
-            async function (strOriSvg) {
-                function createRandomStrSVG() {
-                    let strSvg = strOriSvg;
-                    for (const color of tracedata.palette) {
-                        const src = `rgb(${color.r},${color.g},${color.b})`;
-                        const hslObj = rgb2hsl(color.r, color.g, color.b);
-
-                        hslObj.h = randomInt(1, 360);
-                        hslObj.s = 100;
-
-                        if (hslObj.l > 70) {
-                            hslObj.l = randomInt(50, 70);
-                        }
-                        else if (hslObj.l < 30) {
-                            hslObj.l = randomInt(30, 50);
-                        }
-
-                        const dst = `hsl(${hslObj.h} ${hslObj.s}% ${hslObj.l}%)`;
-                        strSvg = strSvg.replaceAll(src, dst);
-                    }
-                    return strSvg;
-                }
-
+            function (strOriSvg) {
                 const addButton = document.querySelector("#add-svg-btn");
+                addButton.canClick = true;
                 const elMessage = document.querySelector("#message");
 
-                function appendManyRandomSVG() {
-                    return new Promise(resolve => {
-                        requestAnimationFrame(() => {
-                            addButton.style.display = "none";
-                            elMessage.style.display = "";
-                            requestAnimationFrame(() => {
-                                let strSvg = "";
-                                for (let i = 0; i < 100; i++) {
-                                    strSvg += createRandomStrSVG();
-                                }
-                                ImageTracer.appendSVGString(strSvg, "svg-container");
-                                addButton.style.display = "";
-                                elMessage.style.display = "none";
-                                resolve();
-                            });
-                        });
-                    })
-                }
-                
-                await appendManyRandomSVG();
+                const worker = new Worker("createRandomStrSVGWorker.js");
+                worker.onmessage = function(e) {
+                    const strSvg = e.data;
+                    ImageTracer.appendSVGString(strSvg, "svg-container");
+                    addButton.canClick = true;
+                    addButton.style.display = "";
+                    elMessage.style.display = "none";
+                };
+                worker.onerror = function(e) {
+                    console.error(e);
+                    elMessage.style.display = "";
+                    elMessage.innerText = "エラー発生…重いかも…";
+                };
 
-                let canClick = true;
-                addButton.addEventListener("click", async () => {
-                    if (!canClick) {
+                addButton.style.display = "none";
+                elMessage.style.display = "";
+                worker.postMessage([strOriSvg, tracedata.palette]);
+
+                addButton.onclick = function() {
+                    if (!addButton.canClick) {
                         return;
                     }
-                    canClick = false;
-                    await appendManyRandomSVG();
-                    canClick = true;
-                });
+                    addButton.style.display = "none";
+                    elMessage.style.display = "";
+                    addButton.canClick = false;
+                    worker.postMessage([strOriSvg, tracedata.palette]);
+                }
             },
             options
         );
