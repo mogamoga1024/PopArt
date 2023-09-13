@@ -25,7 +25,7 @@ ImageTracer.imageToTracedata(
         ImageTracer.imageToSVG(
             "野獣先輩.png",
             async function (strOriSvg) {
-                function appendRandomSVG() {
+                function createRandomStrSVG() {
                     let strSvg = strOriSvg;
                     for (const color of tracedata.palette) {
                         const src = `rgb(${color.r},${color.g},${color.b})`;
@@ -44,7 +44,7 @@ ImageTracer.imageToTracedata(
                         const dst = `hsl(${hslObj.h} ${hslObj.s}% ${hslObj.l}%)`;
                         strSvg = strSvg.replaceAll(src, dst);
                     }
-                    ImageTracer.appendSVGString(strSvg, "svg-container");
+                    return strSvg;
                 }
 
                 const addButton = document.querySelector("#add-svg-btn");
@@ -56,9 +56,11 @@ ImageTracer.imageToTracedata(
                             addButton.style.display = "none";
                             elMessage.style.display = "";
                             requestAnimationFrame(() => {
+                                let strSvg = "";
                                 for (let i = 0; i < 100; i++) {
-                                    appendRandomSVG();
+                                    strSvg += createRandomStrSVG();
                                 }
+                                ImageTracer.appendSVGString(strSvg, "svg-container");
                                 addButton.style.display = "";
                                 elMessage.style.display = "none";
                                 resolve();
